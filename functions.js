@@ -37,7 +37,7 @@ function reset_all_players() {
 	for (let i = 0; i < players.length; i++) {
 		player_add_indicators(players[i].element, default_indicators);
 	}
-	info("Reset " + players.length + " player" + (players.length !== 1 ? "s" : "") + "!");
+	info("Reset " + players.length + " player" + (players.length !== 1 ? "s" : "") + "! New turn started!");
 }
 
 function reset_player(event) {
@@ -135,7 +135,7 @@ function msg(text, type) {
 	msg.innerText = text;
 
 	container.insertBefore(msg, container.firstChild);
-	setTimeout(function() { msg.style.opacity = ".25"; }, 100);
+	setTimeout(function() { msg.style.opacity = ".5"; }, 1500);
 }
 
 function player_get_name(player_row) {

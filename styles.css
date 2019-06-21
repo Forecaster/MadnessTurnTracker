@@ -3,6 +3,11 @@ body {
     color: white;
 }
 
+:root {
+    --action: #5945ff;
+    --move: gold;
+}
+
 .header {
     font-size: 1.75rem;
     line-height: 1.2;
@@ -13,7 +18,7 @@ body {
 }
 
 .subheader {
-    font-style:italic;
+    font-style: italic;
     color: gray;
 }
 
@@ -22,6 +27,7 @@ body {
     margin-bottom: 6px;
     padding-bottom: 6px;
     border-bottom: 2px dashed white;
+    cursor: pointer;
 }
 
 #player-name {
@@ -33,7 +39,7 @@ body {
 
 .chevron_long, .chevron_short, .action, .move {
     display: inline-block;
-    background-color: cornflowerblue;
+    background-color: var(--action);
     margin-left: -20px;
     cursor: pointer;
     height: 23px;
@@ -50,10 +56,11 @@ body {
     clip-path: polygon(calc(100% - 25px) 0%, 100% 50%, calc(100% - 25px) 100%, 0% 100%, 25px 50%, 0% 0%);
 }
 
-.action {}
+.action {
+}
 
 .move {
-    background-color: gold;
+    background-color: var(--move);
 }
 
 .spent, .spent:hover {
@@ -72,7 +79,7 @@ body {
 
 .info, .warn, .error {
     transition-property: opacity;
-    transition-duration: 10s;
+    transition-duration: 15s;
 }
 
 .info {
@@ -100,4 +107,14 @@ body {
     .bg-button {
         display: none;
     }
+}
+
+action {
+    font-weight: bold;
+    color: var(--action);
+}
+
+move {
+    font-weight: bold;
+    color: var(--move);
 }
