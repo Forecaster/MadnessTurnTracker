@@ -1,0 +1,103 @@
+body {
+    background-color: black;
+    color: white;
+}
+
+.header {
+    font-size: 1.75rem;
+    line-height: 1.2;
+    font-weight: 500;
+    margin-top: 40px;
+    color: gray;
+    border-bottom: 1px solid #464646;
+}
+
+.subheader {
+    font-style:italic;
+    color: gray;
+}
+
+.player {
+    margin-top: 6px;
+    margin-bottom: 6px;
+    padding-bottom: 6px;
+    border-bottom: 2px dashed white;
+}
+
+#player-name {
+    line-height: 25pt;
+    padding-left: 24px;
+    font-weight: bold;
+    font-size: 16pt;
+}
+
+.chevron_long, .chevron_short, .action, .move {
+    display: inline-block;
+    background-color: cornflowerblue;
+    margin-left: -20px;
+    cursor: pointer;
+    height: 23px;
+    margin-top: 4px;
+}
+
+.chevron_long, .action {
+    width: 200px;
+    clip-path: polygon(calc(100% - 25px) 0%, 100% 50%, calc(100% - 25px) 100%, 0% 100%, 25px 50%, 0% 0%);
+}
+
+.chevron_short, .move {
+    width: 110px;
+    clip-path: polygon(calc(100% - 25px) 0%, 100% 50%, calc(100% - 25px) 100%, 0% 100%, 25px 50%, 0% 0%);
+}
+
+.action {}
+
+.move {
+    background-color: gold;
+}
+
+.spent, .spent:hover {
+    background-color: gray;
+}
+
+#message_box {
+    height: 10em;
+    max-height: 10em;
+    overflow-y: auto;
+    margin-top: 6px;
+    margin-bottom: 6px;
+    border-top: 1px dashed red;
+    border-bottom: 1px dashed red;
+}
+
+.info, .warn, .error {
+    transition-property: opacity;
+    transition-duration: 10s;
+}
+
+.info {
+    color: deepskyblue;
+}
+
+.warn {
+    color: orange;
+}
+
+.error {
+    color: red;
+    font-weight: bold;
+}
+
+.sm-button {
+    display: none;
+}
+
+@media (min-width: 1200px) {
+    .sm-button {
+        display: block;
+    }
+
+    .bg-button {
+        display: none;
+    }
+}
