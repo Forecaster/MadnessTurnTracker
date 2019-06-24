@@ -18,7 +18,15 @@ Currently it's pretty basic. Not very many features. Which means not many things
 If you have a feature you'd like to see added create an issue here! You don't need to mark it in any way. I'll be able to tell and tag it appropriately. If the feature refers to a mechanic in the game, please provide a description to this mechanic, or a link to a description to make it easier for me!
 
 ## Saving
-There is no saving. No data is sent anywhere or stored anywhere. Given the simple nature of the data I don't believe there needs to be a save/load feature. At least not right now.
+Data is saved in the browsers local storage after editing a name or performing an action or move or reset. All players (names and actions) are stored, as well as the entire message log.
+
+#### Clicking the Add Player button does not trigger a save.
+
+Saved data is loaded on page load to resume the previous session.
+
+The button "Clear Save Data" can be used to wipe all stored data, causing the next page load to return to the default starting setup.
+
+NOTE: If the browser doesn't support localStorage saving will not work. Up-to-date browsers should support localStorage.
 
 ## Instructions
 For instructions see the [app page](https://towerofawesome.org/madnessturntracker/).

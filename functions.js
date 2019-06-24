@@ -1,5 +1,5 @@
 
-function player_add() {
+function player_add(player_name = "", indicators = default_indicators) {
 	let id = players.length + 1;
 	let template = document.getElementById("player_template");
 
@@ -8,15 +8,17 @@ function player_add() {
 	elem.className = template.className;
 	elem.id = "player_" + id;
 
+	if (player_name === "")
+		player_name = 'Player ' + id;
 
-	$(elem).find('#player-name').text('Player ' + id);
+	$(elem).find('#player-name').text(player_name);
 
 	let container = document.getElementById("cont_player_active");
 	container.appendChild(elem);
 
-	player_add_indicators(elem, default_indicators);
+	player_add_indicators(elem, indicators);
 
-	players.push({ id: id, element: elem, active: true });
+	players.push({ id: id, element: elem });
 }
 
 function player_add_indicators(player_row, indicators, clear = true) {
@@ -28,7 +30,6 @@ function player_add_indicators(player_row, indicators, clear = true) {
 	for (let i = 0; i < indicators.length; i++) {
 		let ind = document.createElement("span");
 		ind.className = indicators[i];
-		console.log(indicator_container);
 		indicator_container.appendChild(ind);
 	}
 }
@@ -38,6 +39,7 @@ function reset_all_players() {
 		player_add_indicators(players[i].element, default_indicators);
 	}
 	info("Reset " + players.length + " player" + (players.length !== 1 ? "s" : "") + "! New turn started!");
+	save();
 }
 
 function reset_player(event) {
@@ -45,6 +47,7 @@ function reset_player(event) {
 
 	player_add_indicators(player, default_indicators);
 	info("Restored " + player_get_name(player) + "!");
+	save();
 }
 
 function player_name_update(target) {
@@ -64,14 +67,13 @@ function player_name_update(target) {
 
 function player_name_restore(target) {
 	target.parentElement.innerText = target.value;
+	save();
 }
 
 function action(event) {
 	let player = $(event.target).parents('.player')[0];
 
 	let actions = $(player).find('.action:not(.spent)');
-	console.log(typeof actions);
-	console.log(actions);
 
 	if (actions.length > 0) {
 		actions[actions.length - 1].classList.add("spent");
@@ -79,14 +81,13 @@ function action(event) {
 	}
 	else
 		warn(player_get_name(player) + " has no actions left.");
+	save();
 }
 
 function move(event) {
 	let player = $(event.target).parents('.player')[0];
 
 	let moves = $(player).find('.move:not(.spent)');
-	console.log(typeof moves);
-	console.log(moves);
 
 	if (moves.length > 0) {
 		moves[moves.length - 1].classList.add("spent");
@@ -94,8 +95,6 @@ function move(event) {
 	}
 	else {
 		let actions = $(player).find('.action:not(.spent)');
-		console.log(typeof actions);
-		console.log(actions);
 
 		if (actions.length > 0) {
 			let target_action = actions[actions.length - 1];
@@ -109,10 +108,12 @@ function move(event) {
 			target_action.parentElement.insertBefore(move2, target_action);
 			target_action.parentElement.removeChild(target_action);
 			info(player_get_name(player) + " used action to move!");
+			save();
 		} else {
 			warn(player_get_name(player) + " has no actions left.");
 		}
 	}
+	save();
 }
 
 function info(text) {
@@ -140,4 +141,47 @@ function msg(text, type) {
 
 function player_get_name(player_row) {
 	return $(player_row).find('#player-name').text();
+}
+
+function save() {
+	let save_data = { log: [], players: [] };
+
+	$('#cont_player_active').find('.player').each(function() {
+		let player = {};
+		player.name = $(this).find('#player-name').text();
+		let indicators = [];
+		$(this).find('#player-indicators > span').each(function() {
+			indicators.push(this.className);
+		});
+		player.indicators = indicators;
+		save_data.players.push(player);
+	});
+	$('#message_box > div').each(function() {
+		save_data.log.push({ msg: this.innerText, class: this.className });
+	});
+	window.localStorage.setItem("save_data", JSON.stringify(save_data));
+}
+
+function load() {
+	if (window.localStorage.getItem("save_data") !== null) {
+		$('#cont_player_active').html("");
+
+		let save_data = JSON.parse(window.localStorage.getItem("save_data"));
+
+		for (let i = 0; i < save_data.players.length; i++) {
+			let player = save_data.players[i];
+			player_add(player.name, player.indicators);
+		}
+
+		let msg_box = document.getElementById("message_box");
+		msg_box.innerHTML = "";
+		for (let i = 0; i < save_data.log.length; i++) {
+			let log = save_data.log[i];
+			msg_box.innerHTML += "<div class='" + log.class + "' style='opacity: 0.5'>" + log.msg + "</div>";
+		}
+	}
+}
+
+function clear_save() {
+	window.localStorage.removeItem("save_data");
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="">
 <head>
 	<meta charset="UTF-8">
 	<title>Mansions of Madness Turn Tracker</title>
@@ -41,9 +41,12 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-sm-12">
-			<div class="btn btn-primary" onclick="player_add(default_indicators)">Add Player</div>
+		<div class="col-sm-10">
+			<div class="btn btn-primary" onclick="player_add()">Add Player</div>
 			<div class="btn btn-warning" onclick="reset_all_players()">New Turn</div>
+		</div>
+		<div class="col-md-2" style="text-align: right;">
+			<div class="btn btn-danger" onclick="clear_save()">Clear Save Data</div>
 		</div>
 	</div>
 	<div id="message_box">
@@ -72,6 +75,7 @@
 	let players = [];
 	let default_indicators = ["action", "action"];
 
-	player_add(default_indicators);
+	player_add();
+	load();
 </script>
 </html>
