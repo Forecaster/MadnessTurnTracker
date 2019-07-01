@@ -93,3 +93,20 @@ function get_effect_by_name(effect) {
 function find_player_row(target) {
 	return $(target).parents('.player')[0];
 }
+
+function btn_delete_player_confirm(event) {
+	event.target.setAttribute("data-text", event.target.innerText);
+	event.target.innerText = "Sure?";
+	event.target.onclick = btn_delete_player;
+
+	setTimeout(function() {
+		event.target.innerText = event.target.getAttribute("data-text");
+		event.target.onclick = btn_delete_player_confirm;
+	}, 5000);
+}
+
+function btn_delete_player(event) {
+	let player = $(event.target).parents('.player')[0];
+
+	player.parentElement.removeChild(player);
+}
