@@ -9,6 +9,8 @@
 
 	<script src="https://towerofawesome.org/libraries_javascript/jquery.min.js"></script>
 	<script src="functions.js"></script>
+	<script src="players.js"></script>
+	<script src="data.js"></script>
 </head>
 <body>
 <div class="container-fluid">
@@ -16,27 +18,33 @@
 	<div style="display: none;">
 		<div id="player_template" class="player">
 			<div class="row">
-				<div class="col-sm-12 col-md-4 col-xl-3" id="player-name" onclick="player_name_update(this)">Player Name</div>
-				<div class="col-sm-12 col-md-8 col-xl-5" id="player-indicators">
-				</div>
-				<div class="col-sm-6 col-md-2 col-xl-1 sm-button">
-					<span class="btn btn-block btn-success" onclick="action(event)">Action</span>
-				</div>
-				<div class="col-sm-6 col-md-2 col-xl-1 sm-button">
-					<span class="btn btn-block btn-primary" onclick="move(event)">Move</span>
-				</div>
-				<div class="col-sm-6 col-md-2 col-xl-1 sm-button">
-					<span class="btn btn-block btn-warning" onclick="reset_player(event)">Reset</span>
+				<div class="col-sm-12 col-md-4 col-xl-3 player-field" id="player-name" onclick="player_name_update(this)">Player Name</div>
+				<div class="col-sm-12 col-md-4 col-xl-3 player-field" id="player-investigator" onclick="player_investigator_update(this)">???</div>
+				<div class="col-sm-12 col-md-8 col-xl-5" id="player-indicators"></div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12 col-md-12 col-xl-12" id="player-effects" style="margin-top: 6px; margin-bottom: 6px;">
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-12 bg-button"><div class="btn btn-success btn-lg btn-block" onclick="action(event)">Action</div></div>
+				<div class="col-4 sm-button">
+					<span class="btn btn-block btn-success button-action" onclick="action(event)">Action</span>
+				</div>
+				<div class="col-4 sm-button">
+					<span class="btn btn-block btn-primary button-move" onclick="move(event)">Move</span>
+				</div>
+				<div class="col-4 sm-button">
+					<span class="btn btn-block btn-warning" onclick="reset_player_btn(event)">Reset</span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12 bg-button button-action"><div class="btn btn-success btn-lg btn-block" onclick="action(event)">Action</div></div>
 			</div>
 			<div class="row" style="margin-top: 10px;">
-				<div class="col-12 bg-button"><div class="btn btn-primary btn-lg btn-block" onclick="move(event)">Move</div></div>
+				<div class="col-12 bg-button button-move"><div class="btn btn-primary btn-lg btn-block" onclick="move(event)">Move</div></div>
 			</div>
 			<div class="row" style="margin-top: 10px;">
-				<div class="col-12 bg-button"><div class="btn btn-warning btn-lg btn-block" onclick="reset_player(event)">Reset</div></div>
+				<div class="col-12 bg-button"><div class="btn btn-warning btn-lg btn-block" onclick="reset_player_btn(event)">Reset</div></div>
 			</div>
 		</div>
 	</div>
@@ -53,18 +61,21 @@
 
 	</div>
 	<div class="header">Players</div>
-	<div class="subheader">Click player name below to change. When done press enter or click outside field to save.</div>
+	<div class="subheader">Click player name below to change. When done press enter or click outside field to save. Click on investigator field to change investigator.</div>
 	<div id="cont_player_active">
 
 	</div>
 	<div>
 		<h2>Instructions</h2>
 		<p>This is a turn tracker for the board game Mansions of Madness 2nd Edition.</p>
-		<p>To use, click the <code>Add Player</code> button as many times as desired. Then you can click each player name to change it.</p>
-		<p>Then simply click either the <action>Action</action> or <move>Move</move> button for a player. The <action>purple arrows</action> next to a player represent actions. Pressing the <action>Action</action> button will use one <action>action</action>, which will cause it to turn gray.</p>
-		<p>Pressing the <move>Move</move> button with no moves available will turn one available <action>action</action> into two <move>moves</move>, represented by smaller <move>gold arrows</move>. One will be used immediately.</p>
-		<p>If no more <move>moves</move> or <action>actions</action> are available a message telling you so is printed to the message box. Other messages are printed on certain actions and remain in the message box until the page is reloaded.</p>
-		<p>Click the <code>New Turn</code> button to restore each players <action>actions</action>. You can also click <code>Reset</code> on each player to restore that player's <action>actions</action>.</p>
+		<ul>
+			<li>Add players with the <code>Add Player</code> button.</li>
+			<li>Rename a player by clicking the text <code>Player #</code>, type in the new name and click outside or press enter.</li>
+			<li>Choose an investigator by clicking <code>Unknown Investigator</code> and pick one from the list. You can repeat to re-select. You can press enter to keep the current investigator.</li>
+			<li>Click the <action>Action</action> button to spend an <action>action</action>. A <action>purple</action> arrow will turn grey. If you have no more actions to spend a warning will appear in the message box.</li>
+			<li>Click the <move>Move</move> button to spend a <move>move</move>. If no <move>moves</move> are available an unspent <action>action</action> will be replaced by two <move>moves</move>. If no <move>moves</move> or <action>actions</action> are available a warning will appear in the message box.</li>
+			<li>At the end of the investigator phase click the <code>New Turn</code> button. <action>Actions</action> will be restored for each player, and status effects that expire at the end of turn will be turned off.</li>
+		</ul>
 		<p>--</p>
 		<p>The code and more technical details are available on the <a target="_blank" href="https://github.com/Forecaster/MadnessTurnTracker">GitHub Repo</a></p>
 		<p style="color: var(--danger);">If you want to report an issue, suggest a feature, or want more information see the <a target="_blank" href="https://github.com/Forecaster/MadnessTurnTracker">GitHub Repo</a>.</p>
@@ -72,9 +83,6 @@
 </div>
 </body>
 <script>
-	let players = [];
-	let default_indicators = ["action", "action"];
-
 	player_add();
 	load();
 </script>

@@ -30,7 +30,7 @@ body {
     cursor: pointer;
 }
 
-#player-name {
+.player-field {
     line-height: 25pt;
     padding-left: 24px;
     font-weight: bold;
@@ -59,8 +59,16 @@ body {
 .action {
 }
 
+.action.disabled {
+    background-color: darkred;
+}
+
 .move {
     background-color: var(--move);
+}
+
+.move.disabled {
+    background-color: darkred;
 }
 
 .spent, .spent:hover {
@@ -78,8 +86,14 @@ body {
 }
 
 .info, .warn, .error {
-    transition-property: opacity;
+    font-size: 20pt;
+    transition-property: opacity, font-size;
     transition-duration: 15s;
+}
+
+.info.old, .warn.old, .error.old {
+    font-size: 12pt;
+    opacity: .5;
 }
 
 .info {
@@ -117,4 +131,27 @@ action {
 move {
     font-weight: bold;
     color: var(--move);
+}
+
+.icon {
+    width: 75px;
+    height: 75px;
+    cursor: pointer;
+
+    opacity: 1;
+    transition-property: opacity;
+    transition-duration: .5s;
+}
+
+.icon > svg {
+    width: 75px;
+    height: 75px;
+}
+
+.icon.active path {
+    fill: red;
+}
+
+.icon.disabled {
+    opacity: .1;
 }

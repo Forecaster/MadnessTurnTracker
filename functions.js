@@ -1,121 +1,4 @@
 
-function player_add(player_name = "", indicators = default_indicators) {
-	let id = players.length + 1;
-	let template = document.getElementById("player_template");
-
-	let elem = document.createElement("div");
-	elem.innerHTML = template.innerHTML;
-	elem.className = template.className;
-	elem.id = "player_" + id;
-
-	if (player_name === "")
-		player_name = 'Player ' + id;
-
-	$(elem).find('#player-name').text(player_name);
-
-	let container = document.getElementById("cont_player_active");
-	container.appendChild(elem);
-
-	player_add_indicators(elem, indicators);
-
-	players.push({ id: id, element: elem });
-}
-
-function player_add_indicators(player_row, indicators, clear = true) {
-	let indicator_container = $(player_row).find('#player-indicators')[0];
-
-	if (clear)
-		indicator_container.innerHTML = "";
-
-	for (let i = 0; i < indicators.length; i++) {
-		let ind = document.createElement("span");
-		ind.className = indicators[i];
-		indicator_container.appendChild(ind);
-	}
-}
-
-function reset_all_players() {
-	for (let i = 0; i < players.length; i++) {
-		player_add_indicators(players[i].element, default_indicators);
-	}
-	info("Reset " + players.length + " player" + (players.length !== 1 ? "s" : "") + "! New turn started!");
-	save();
-}
-
-function reset_player(event) {
-	let player = $(event.target).parents('.player')[0];
-
-	player_add_indicators(player, default_indicators);
-	info("Restored " + player_get_name(player) + "!");
-	save();
-}
-
-function player_name_update(target) {
-	let name = target.innerText;
-
-	let input = document.createElement("input");
-	input.class = "form-control";
-	input.value = name;
-	input.onclick = function(event) { event.stopImmediatePropagation(); };
-	input.onkeypress = function(event) { if (event.key === "Enter") { player_name_restore(event.target) } };
-	input.onblur = function(event) { player_name_restore(event.target) };
-
-	target.innerHTML = "";
-	target.appendChild(input);
-	input.focus();
-}
-
-function player_name_restore(target) {
-	target.parentElement.innerText = target.value;
-	save();
-}
-
-function action(event) {
-	let player = $(event.target).parents('.player')[0];
-
-	let actions = $(player).find('.action:not(.spent)');
-
-	if (actions.length > 0) {
-		actions[actions.length - 1].classList.add("spent");
-		info(player_get_name(player) + " used action!");
-	}
-	else
-		warn(player_get_name(player) + " has no actions left.");
-	save();
-}
-
-function move(event) {
-	let player = $(event.target).parents('.player')[0];
-
-	let moves = $(player).find('.move:not(.spent)');
-
-	if (moves.length > 0) {
-		moves[moves.length - 1].classList.add("spent");
-		info(player_get_name(player) + " moved!");
-	}
-	else {
-		let actions = $(player).find('.action:not(.spent)');
-
-		if (actions.length > 0) {
-			let target_action = actions[actions.length - 1];
-
-			let move1 = document.createElement("span");
-			move1.className = "move";
-			let move2 = document.createElement("span");
-			move2.className = "move spent";
-
-			target_action.parentElement.insertBefore(move1, target_action);
-			target_action.parentElement.insertBefore(move2, target_action);
-			target_action.parentElement.removeChild(target_action);
-			info(player_get_name(player) + " used action to move!");
-			save();
-		} else {
-			warn(player_get_name(player) + " has no actions left.");
-		}
-	}
-	save();
-}
-
 function info(text) {
 	msg(text, "info");
 }
@@ -136,11 +19,7 @@ function msg(text, type) {
 	msg.innerText = text;
 
 	container.insertBefore(msg, container.firstChild);
-	setTimeout(function() { msg.style.opacity = ".5"; }, 1500);
-}
-
-function player_get_name(player_row) {
-	return $(player_row).find('#player-name').text();
+	setTimeout(function() { msg.classList.add("old"); }, 1500);
 }
 
 function save() {
@@ -154,6 +33,11 @@ function save() {
 			indicators.push(this.className);
 		});
 		player.indicators = indicators;
+		player.investigator = $(this).find('#player-investigator').text();
+		player.effects = [];
+		$(this).find('#player-effects > span.icon.active').each(function() {
+			player.effects.push(this.getAttribute("data-effect-name"));
+		});
 		save_data.players.push(player);
 	});
 	$('#message_box > div').each(function() {
@@ -170,18 +54,42 @@ function load() {
 
 		for (let i = 0; i < save_data.players.length; i++) {
 			let player = save_data.players[i];
-			player_add(player.name, player.indicators);
+			let player_row = player_add(player.name, player.indicators, player.investigator);
+			$(player_row).find('#player-effects > span.icon').each(function() {
+				if (player.effects.indexOf(this.getAttribute("data-effect-name")) !== -1)
+					this.classList.add("active");
+			});
 		}
 
 		let msg_box = document.getElementById("message_box");
 		msg_box.innerHTML = "";
 		for (let i = 0; i < save_data.log.length; i++) {
 			let log = save_data.log[i];
-			msg_box.innerHTML += "<div class='" + log.class + "' style='opacity: 0.5'>" + log.msg + "</div>";
+			msg_box.innerHTML += "<div class='" + log.class + " old'>" + log.msg + "</div>";
 		}
 	}
 }
 
 function clear_save() {
 	window.localStorage.removeItem("save_data");
+}
+
+function get_investigator_by_name(investigator) {
+	for (let i = 0; i < investigators.length; i++) {
+		if (investigators[i].name === investigator)
+			return investigators[i];
+	}
+	return null;
+}
+
+function get_effect_by_name(effect) {
+	for (let i = 0; i < effects.length; i++) {
+		if (effects[i].name === effect)
+			return effects[i];
+	}
+	return null;
+}
+
+function find_player_row(target) {
+	return $(target).parents('.player')[0];
 }
