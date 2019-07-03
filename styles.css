@@ -86,13 +86,13 @@ body {
     border-bottom: 1px dashed red;
 }
 
-.info, .warn, .error {
+.message {
     font-size: 20pt;
     transition-property: opacity, font-size;
     transition-duration: 15s;
 }
 
-.info.old, .warn.old, .error.old {
+.message.old {
     font-size: 12pt;
     opacity: .5;
 }
@@ -135,6 +135,7 @@ move {
 }
 
 .icon {
+    display: inline-block;
     width: 75px;
     height: 75px;
     cursor: pointer;
@@ -149,8 +150,16 @@ move {
     height: 75px;
 }
 
+.icon path {
+    fill: var(--active);
+}
+
 .icon.active path {
-    fill: red;
+    fill: black;
+}
+
+.icon.active {
+    background-color: var(--active);
 }
 
 .icon.disabled {

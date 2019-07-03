@@ -187,7 +187,7 @@ function move(event) {
 			let preventing_effects = player_effects_preventing_action(player, Action.MOVE);
 			console.debug(preventing_effects);
 			if (preventing_effects.length > 0) {
-				warn(player_get_display_name(player) + " can't perform move action due to the following effects: " + preventing_effects.join(", "));
+				warn(player_get_display_name(player) + " can't perform move action due to the following condition" + (preventing_effects.length === 1 ? "" : "s") + ": " + preventing_effects.join(", "));
 				return;
 			}
 			let actions = $(player).find('.action:not(.spent):not(.disabled)');
@@ -249,7 +249,7 @@ function player_toggle_effect(target) {
 			info(name + " is immune to being " + effect);
 		} else {
 			target.classList.add("active");
-			info(name + " is " + effect)
+			color_msg(name + " is " + effect, eff.color);
 		}
 	}
 	update_effects_on_player(player);
@@ -272,6 +272,7 @@ function player_add_effects(player_row, effects = default_effects, clear_effects
 			wrap.onclick = function() { player_toggle_effect(event.target) };
 			wrap.className = "icon" + (immunities.indexOf(effect.name) !== -1 ? " disabled" : "");
 			wrap.title = effect.name + "\n" + effect.text + (effect.ends_after_turn ? "\nEnds after current turn." : "");
+			wrap.style.setProperty("--active", effect.color);
 			wrap.setAttribute("data-effect-name", effect.name);
 			effect_container.appendChild(wrap);
 			$.get('icons/' + effect.icon + '.svg')

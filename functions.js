@@ -22,6 +22,18 @@ function msg(text, type) {
 	setTimeout(function() { msg.classList.add("old"); }, 1500);
 }
 
+function color_msg(text, color) {
+	let container = document.getElementById("message_box");
+
+	let msg = document.createElement("div");
+	msg.className = "message";
+	msg.style.color = color;
+	msg.innerText = text;
+
+	container.insertBefore(msg, container.firstChild);
+	setTimeout(function() { msg.classList.add("old"); }, 1500);
+}
+
 function save() {
 	let save_data = { log: [], players: [] };
 
