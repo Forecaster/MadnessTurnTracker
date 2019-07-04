@@ -53,7 +53,7 @@ function save() {
 		save_data.players.push(player);
 	});
 	$('#message_box > div').each(function() {
-		save_data.log.push({ msg: this.innerText, class: this.className });
+		save_data.log.push({ msg: this.innerText, class: this.className, color: this.style.color });
 	});
 	window.localStorage.setItem("save_data", JSON.stringify(save_data));
 }
@@ -77,7 +77,8 @@ function load() {
 		msg_box.innerHTML = "";
 		for (let i = 0; i < save_data.log.length; i++) {
 			let log = save_data.log[i];
-			msg_box.innerHTML += "<div class='" + log.class + " old'>" + log.msg + "</div>";
+			let color = (log.color !== "" && log.color !== null ? "style='color: " + log.color + ";'" : "");
+			msg_box.innerHTML += "<div class='" + log.class + " old' " + color + ">" + log.msg + "</div>";
 		}
 	}
 }

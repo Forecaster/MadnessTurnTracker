@@ -1,3 +1,8 @@
+@font-face {
+    font-family: "MADGaramond";
+    src: url("MADGaramondPro.ttf");
+}
+
 body {
     background-color: black;
     color: white;
@@ -28,7 +33,6 @@ body {
     margin-bottom: 6px;
     padding-bottom: 6px;
     border-bottom: 2px dashed white;
-    cursor: pointer;
 }
 
 .player-field {
@@ -36,6 +40,7 @@ body {
     padding-left: 24px;
     font-weight: bold;
     font-size: 16pt;
+    cursor: pointer;
 }
 
 .chevron_long, .chevron_short, .action, .move {
@@ -164,4 +169,39 @@ move {
 
 .icon.disabled {
     opacity: .1;
+}
+
+txt_action::after {
+    content: 'Action:';
+    font-weight: bold;
+}
+
+cluepf::after {
+    /*font-family: 'MADGaramond';*/
+    content: 'an';
+}
+clue::after {
+    font-family: 'MADGaramond';
+    content: '';
+    /*content: 'Investigation Result';*/
+}
+cluepl::after {
+    font-family: 'MADGaramond';
+    content: '';
+    /*content: 'Investigation Results';*/
+}
+
+successpf::after {
+    /*font-family: 'MADGaramond';*/
+    content: 'a';
+}
+success::after {
+    font-family: 'MADGaramond';
+    content: '';
+    /*content: 'Success';*/
+}
+successpl::after {
+    font-family: 'MADGaramond';
+    content: '';
+    /*content: 'Successes';*/
 }

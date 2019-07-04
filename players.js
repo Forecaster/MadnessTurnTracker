@@ -1,5 +1,6 @@
 
 function player_add(player_name = "", indicators = default_indicators, investigator = "") {
+	let ability = "";
 	let id = $('#cont_player_active').find('.player').length + 1;
 	let template = document.getElementById("player_template");
 
@@ -13,11 +14,13 @@ function player_add(player_name = "", indicators = default_indicators, investiga
 
 	$(elem).find('#player-name').text(player_name);
 
-	investigator = get_investigator_by_name(investigator);
-	if (investigator !== null)
-		investigator = investigator.name;
-	else
+	let inv = get_investigator_by_name(investigator);
+	if (inv !== null) {
+		investigator = inv.name;
+		ability = inv.ability;
+	} else {
 		investigator = default_investigator;
+	}
 
 	let investigator_id = -1;
 	for (let i = 0; i < investigators.length; i++) {
@@ -27,6 +30,7 @@ function player_add(player_name = "", indicators = default_indicators, investiga
 	}
 
 	$(elem).find('#player-investigator').text(investigator);
+	$(elem).find('#player-ability-text').html(ability);
 
 	let container = document.getElementById("cont_player_active");
 	container.appendChild(elem);
@@ -150,8 +154,10 @@ function player_investigator_update(target) {
 
 function player_investigator_restore(target) {
 	let player = target.parentElement.parentElement.parentElement;
-	target.parentElement.setAttribute("data-investigator-id", target.selectedOptions[0].value);
+	let investigator = get_investigator_by_name(target.selectedOptions[0].innerText);
+	target.parentElement.setAttribute("data-investigator-id", investigator.name);
 	target.parentElement.innerText = target.selectedOptions[0].innerText;
+	$(player).find('#player-ability-text').html(investigator.ability);
 	player_add_effects(player);
 	player_add_indicators(player);
 	save();
