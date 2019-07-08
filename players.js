@@ -115,7 +115,7 @@ function player_name_update(target) {
 	let name = target.innerText;
 
 	let input = document.createElement("input");
-	input.class = "form-control";
+	input.className = "form-control player-investigator-name";
 	input.value = name;
 	input.onclick = function(event) { event.stopImmediatePropagation(); };
 	input.onkeypress = function(event) { if (event.key === "Enter") { player_name_restore(event.target) } };
@@ -135,16 +135,27 @@ function player_investigator_update(target) {
 	let investigator = target.innerText;
 
 	let input = document.createElement("select");
-	input.class = "form-control";
+	input.className = "form-control player-investigator";
 	input.onclick = function(event) { event.stopImmediatePropagation(); };
 	input.onkeypress = function(event) { if (event.key === "Enter") { player_investigator_restore(event.target) } };
 	input.onchange = function(event) { player_investigator_restore(event.target) };
+	input.onblur = function(event) { player_investigator_restore(event.target) };
 
-	for (let i = 0; i < investigators.length; i++) {
+	let sinvestigators = investigators.sort(function( a, b ) {
+		if ( a.name < b.name ){
+			return -1;
+		}
+		if ( a.name > b.name ){
+			return 1;
+		}
+		return 0;
+	});
+
+	for (let i = 0; i < sinvestigators.length; i++) {
 		let selected = "";
-		if (investigators[i].name === investigator)
+		if (sinvestigators[i].name === investigator)
 			selected = "selected='selected'";
-		input.innerHTML += "<option " + selected + " value='" + i + "'>" + investigators[i].name + "</option>";
+		input.innerHTML += "<option " + selected + " value='" + i + "' title='" + sinvestigators[i].ability + "'>" + sinvestigators[i].name + "</option>";
 	}
 
 	target.innerHTML = "";

@@ -144,6 +144,7 @@ move {
     width: 75px;
     height: 75px;
     cursor: pointer;
+    margin-right: 4px;
 
     opacity: 1;
     transition-property: opacity;
@@ -165,6 +166,7 @@ move {
 
 .icon.active {
     background-color: var(--active);
+    border: 2px solid white;
 }
 
 .icon.disabled {
@@ -204,4 +206,38 @@ successpl::after {
     font-family: 'MADGaramond';
     content: '';
     /*content: 'Successes';*/
+}
+
+input.player-investigator-name {
+    background: transparent;
+    border: none;
+    border-bottom: 1px dashed white;
+    color: white;
+}
+
+input.player-investigator-name:focus {
+    background: transparent;
+    outline: none;
+    color: white;
+    border-color: white;
+    box-shadow: none;
+}
+
+select.player-investigator {
+    background: transparent;
+    color: white;
+    border: none;
+    border-bottom: 1px dashed white;
+}
+
+select.player-investigator > option {
+    background-color: black;
+}
+
+select.player-investigator:focus {
+    background: transparent;
+    outline: none;
+    color: white;
+    border-color: white;
+    box-shadow: none;
 }
