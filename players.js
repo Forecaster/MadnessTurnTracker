@@ -101,8 +101,12 @@ function reset_player(player) {
 	for (let i = 0; i < effects.length; i++) {
 		let effect = get_effect_by_name(effects[i].getAttribute("data-effect-name"));
 		if (effect !== null) {
-			if (effect.ends_after_turn)
+			if (effect.ends.after_turn) {
 				effects[i].classList.remove("active");
+				if (effects.ends.resolve) {
+					warn(player_get_display_name(player) + " is no longer " + effect.name);
+				}
+			}
 		}
 	}
 

@@ -16,24 +16,24 @@
 <div class="container-fluid">
 	<h1>Mansions of Madness Turn Tracker</h1>
 	<div style="display: none;">
-		<div id="player_template" class="player">
-			<span class="btn btn-danger" style="position: absolute; top: 2px; right: 2px;" onclick="btn_delete_player_confirm(event)">Delete Player</span>
+		<div id="player_template" class="player col-5 floating">
+			<span class="btn btn-danger" style="position: absolute; top: 2px; right: 2px;" onclick="btn_delete_player_confirm(event)" title="Delete Player">X</span>
 			<div class="row">
-				<div class="col-sm-6 col-md-6 col-xl-3 player-field" id="player-name" onclick="player_name_update(this)">Player Name</div>
-				<div class="col-sm-6 col-md-6 col-xl-3 player-field" id="player-investigator" onclick="player_investigator_update(this)">???</div>
-				<div class="col-sm-6 col-md-6 col-xl-5" id="player-indicators"></div>
+				<div class="col-sm-6 col-md-6 col-xl-6 player-field" id="player-name" onclick="player_name_update(this)">Player Name</div>
+				<div class="col-sm-6 col-md-6 col-xl-6 player-field" id="player-investigator" onclick="player_investigator_update(this)">???</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6 col-md-6 col-xl-10" id="player-indicators"></div>
 			</div>
 			<div class="row">
 				<div class="col-12">
 					<span style="font-size: 18pt;">Ability:</span>
+					<span id="player-ability-text" style="color: gray; font-size: 14pt;"></span>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-12" style="margin-top: 6px; margin-bottom: 6px; color: gray;" id="player-ability-text"></div>
-			</div>
-			<div class="row">
 				<div class="col-12">
-					<span style="font-size: 18pt;">Conditions:</span> <span style="color: green;">Positive</span>, <span style="color: orange">Temporary</span>, <span style="color: red">Conditional</span> & <span style="color: red">Permanent</span>
+					<span style="font-size: 14pt;">Conditions:</span> <span style="color: green;">Positive</span>, <span style="color: orange">Temporary</span>, <span style="color: red">Conditional</span> & <span style="color: red">Permanent</span>
 				</div>
 			</div>
 			<div class="row">
@@ -79,6 +79,7 @@
 	<div id="cont_player_active">
 
 	</div>
+	<div class="clear_float"></div>
 	<div>
 		<h2>Instructions</h2>
 		<p>This is a turn tracker for the board game Mansions of Madness 2nd Edition.</p>
