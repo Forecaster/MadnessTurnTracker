@@ -180,7 +180,7 @@ txt_action::after {
 
 cluepf::after {
     /*font-family: 'MADGaramond';*/
-    content: 'an';
+    content: 'a';
 }
 clue::after {
     font-family: 'MADGaramond';
@@ -248,4 +248,9 @@ select.player-investigator:focus {
 
 .clear_float {
     clear: both;
+}
+
+.thin-button {
+    height: 30px;
+    line-height: 1;
 }

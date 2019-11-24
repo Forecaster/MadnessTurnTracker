@@ -10,7 +10,9 @@ const game = {
 	HORRIFIC_JOURNEYS: "Horrific Journeys",
 	PATH_OF_THE_SERPENT: "Path of the Serpent",
 	SUPPRESSED_MEMORIES: "Suppressed Memories",
-	RECURRING_NIGHTMARES: "Recurring Nightmares"
+	RECURRING_NIGHTMARES: "Recurring Nightmares",
+	CALL_OF_THE_WILD: "Call of the Wild",
+	FORBIDDEN_ALCHEMY: "Forbidden Alchemy",
 };
 
 const Action = {
@@ -91,10 +93,18 @@ const investigators = [
 		ability: "After you resolve a Horror check, become Focused.", bonuses: { actions: 0, moves: 0 }, immunities: [], stats: { health: 8, sanity: 6, strength: 5, agility: 4, observation: 3, lore: 2, influence: 4, will: 3 } },
 	{ source: game.BEYOND_THE_THRESHOLD, name: "Bob Jenkins", title: "The Salesman",
 		ability: "Once per round, when you spend an action to interact with a Person, you may flip 1 Horror facedown or discard 1 facedown Horror.", bonuses: { actions: 0, moves: 0 }, immunities: [], stats: { health: 7, sanity: 7, strength: 3, agility: 3, observation: 4, lore: 2, influence: 5, will: 4 } },
-	// { source: game.BASE, name: "", title: "", ability: "", bonuses: { actions: 0, moves: 0 }, immunities: [], stats: { health: 5, sanity: 9, strength: 2, agility: 3, observation: 4, lore: 5, influence: 3, will: 4 } },
+	 { source: game.PATH_OF_THE_SERPENT, name: "Daniela Reyes", title: "The Mechanic",
+		 ability: "When a puzzle is solved, you may either gain 2 Clues or discard 1 Horror.", bonuses: { actions: 0, moves: 0 }, immunities: [], stats: { health: 8, sanity: 6, strength: 5, agility: 4, observation: 3, lore: 3, influence: 3, will: 3 } },
+	{ source: game.PATH_OF_THE_SERPENT, name: "Leo Anderson", title: "The Expedition Leader",
+		ability: "Once per round, when you perform a move action, another investigator may move 1 space.", bonuses: { actions: 0, moves: 0 }, immunities: [], stats: { health: 7, sanity: 7, strength: 4, agility: 4, observation: 4, lore: 2, influence: 3, will: 4 } },
+	{ source: game.PATH_OF_THE_SERPENT, name: "Ursula Downs", title: "The Explorer",
+		ability: "Once per round, you may move 1 space before or after performing an explore action or resolving the effects of a Sight token.", bonuses: { actions: 0, moves: 0 }, immunities: [], stats: { health: 7, sanity: 7, strength: 3, agility: 4, observation: 4, lore: 4, influence: 3, will: 3 } },
+	{ source: game.PATH_OF_THE_SERPENT, name: "Norman Withers", title: "The Astronomer",
+		ability: "Action: If you are in an outdoor space, gain 2 Clues or discard 1 Horror. Activate this ability only once per round.", bonuses: { actions: 0, moves: 0 }, immunities: [], stats: { health: 6, sanity: 8, strength: 3, agility: 3, observation: 4, lore: 4, influence: 2, will: 5 } },
+	// { source: game.BASE, name: "", title: "", ability: "", bonuses: { actions: 0, moves: 0 }, immunities: [], stats: { health: 5, sanity: 5, strength: 3, agility: 3, observation: 3, lore: 3, influence: 3, will: 3 } },
 ];
 
-const default_effects = [ "Focused", "Righteous", "Dazed", "Restrained", "Stunned", "Stressed", "Mesmerized", "Lost in Time and Space", "Wounded", "Insane" ];
+const default_effects = [ "Focused", "Righteous", "Fearless", "Dazed", "Restrained", "Stunned", "Stressed", "Mesmerized", "Poisoned", "Lost in Time and Space", "Wounded", "Insane" ];
 const effects = [
 	{ source: game.BASE, name: "Dazed", icon: "knockout", color: "orange", text: "You cannot spend Clues to convert dice results or perform additional puzzle steps. At the end of your turn, discard this card.",
 		bonuses: { actions: 0, moves: 0, prevents_moving: false, limits_actions: false, limits_move_actions: false }, ends: { after_turn: true, resolve: false, damage: false, horror: false } },
@@ -116,6 +126,10 @@ const effects = [
 		bonuses: { actions: 0, moves: 0, prevents_moving: false, limits_actions: false, limits_move_actions: false }, ends: { after_turn: true, resolve: false, damage: false, horror: false } },
 	{ source: game.STREETS_OF_ARKHAM, name: "Righteous", icon: "embrassed-energy", color: "green", text: "Once per round, you may convert an Investigation Result to a Success. When you suffer 1 or more Horror, discard this card.",
 		bonuses: { actions: 0, moves: 0, prevents_moving: false, limits_actions: false, limits_move_actions: false }, ends: { after_turn: true, resolve: false, damage: false, horror: true } },
+	{ source: game.PATH_OF_THE_SERPENT, name: "Poisoned", icon: "poison-bottle", color: "red", text: "At the end of your turn, suffer 1 facedown Damage. Then flip this card.",
+	 	bonuses: { actions: 0, moves: 0, prevents_moving: false, limits_actions: false, limits_move_actions: false }, ends: { after_turn: false, resolve: false, damage: false, horror: true } },
+	{ source: game.PATH_OF_THE_SERPENT, name: "Fearless", icon: "deadly-strike", color: "green", text: "Effects cannot cause you to suffer Horror unless you choose to. At the end of your turn discard this card.",
+	 	bonuses: { actions: 0, moves: 0, prevents_moving: false, limits_actions: false, limits_move_actions: false }, ends: { after_turn: true, resolve: false, damage: false, horror: true } },// { source: game.BASE, name: "", icon: "", text: "",
 	// { source: game.BASE, name: "", icon: "", text: "",
 	// 	bonuses: { actions: 0, moves: 0, prevents_moving: false, limits_actions: false, limits_move_actions: false }, ends: { after_turn: false, resolve: false, damage: false, horror: true } },
 ];

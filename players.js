@@ -159,7 +159,7 @@ function player_investigator_update(target) {
 		let selected = "";
 		if (sinvestigators[i].name === investigator)
 			selected = "selected='selected'";
-		input.innerHTML += "<option " + selected + " value='" + i + "' title='" + sinvestigators[i].ability + "'>" + sinvestigators[i].name + "</option>";
+		input.innerHTML += "<option " + selected + " value='" + i + "' title='" + clean_investigator_ability(sinvestigators[i].ability) + "'>" + sinvestigators[i].name + "</option>";
 	}
 
 	target.innerHTML = "";
@@ -375,4 +375,14 @@ function player_effects_preventing_action(player_row, action) {
 		}
 	}
 	return preventing_effects;
+}
+
+function clean_investigator_ability(input_text) {
+	input_text = input_text.replace(/<txt_action ´\/>/g, "Action:");
+	input_text = input_text.replace(/<cluepf \/>/g, "a");
+	input_text = input_text.replace(/<cluepl \/>/g, "Clues");
+	input_text = input_text.replace(/<clue \/>/g, "Clue");
+	input_text = input_text.replace(/<successpf \/>/g, "a");
+	input_text = input_text.replace(/<success \/>/g, "Success");
+	return input_text.replace(/<successpl \/>/g, "Successes");
 }
