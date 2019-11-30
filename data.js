@@ -20,6 +20,27 @@ const Action = {
 	MOVE: "move"
 };
 
+const Color = {
+	GREEN: "green",
+	ORANGE: "orange",
+	RED: "red"
+};
+
+const Icon = {
+	DAZED: "knockout",
+	FOCUSED: "mighty-force",
+	RESTRAINED: "imprisoned",
+	STUNNED: "oppression",
+	WOUNDED: "arm-sling",
+	INSANE: "pyromaniac",
+	LOST_IN_TIME_AND_SPACE: "portal",
+	MESMERIZED: "psychic-waves",
+	STRESSED: "despair",
+	RIGHTEOUS: "embrassed-energy",
+	POISONED: "poison-bottle",
+	FEARLESS: "deadly-strike"
+};
+
 const investigators = [
 	{ source: game.BASE, name: "Agatha Crane", title: "The Parapsychologist",
 		ability: "After you resolve a horror check, gain 1 Clue.", bonuses: { actions: 0, moves: 0 }, immunities: [], stats: { health: 5, sanity: 9, strength: 2, agility: 3, observation: 4, lore: 5, influence: 3, will: 4 } },
@@ -106,30 +127,40 @@ const investigators = [
 
 const default_effects = [ "Focused", "Righteous", "Fearless", "Dazed", "Restrained", "Stunned", "Stressed", "Mesmerized", "Poisoned", "Lost in Time and Space", "Wounded", "Insane" ];
 const effects = [
-	{ source: game.BASE, name: "Dazed", icon: "knockout", color: "orange", text: "You cannot spend Clues to convert dice results or perform additional puzzle steps. At the end of your turn, discard this card.",
-		bonuses: { actions: 0, moves: 0, prevents_moving: false, limits_actions: false, limits_move_actions: false }, ends: { after_turn: true, resolve: false, damage: false, horror: false } },
-	{ source: game.BASE, name: "Focused", icon: "mighty-force", color: "green", text: "You may discard this card to convert all Investigation Results to Successes while resolving a test.",
-		bonuses: { actions: 0, moves: 0, prevents_moving: false, limits_actions: false, limits_move_actions: false }, ends: { after_turn: false, resolve: false, damage: false, horror: false } },
-	{ source: game.BASE, name: "Restrained", icon: "imprisoned", color: "orange", text: "You cannot move voluntarily. At the end of your turn discard this card.",
-		bonuses: { actions: 0, moves: 0, prevents_moving: true, limits_actions: false, limits_move_actions: false }, ends: { after_turn: true, resolve: false, damage: false, horror: false } },
-	{ source: game.BASE, name: "Stunned", icon: "oppression", color: "orange", text: "You cannot perform more than a single action during your turn. At the end of your turn discard this card.",
-		bonuses: { actions: 0, moves: 0, prevents_moving: false, limits_actions: true, limits_move_actions: false }, ends: { after_turn: true, resolve: false, damage: false, horror: false } },
-	{ source: game.BASE, name: "Wounded", icon: "arm-sling", color: "red", text: "You cannot perform the move action more than once each round. When you have suffered Damage equal to your health you are eliminated.",
-		bonuses: { actions: 0, moves: 0, prevents_moving: false, limits_actions: false, limits_move_actions: true }, ends: { after_turn: false, resolve: false, damage: false, horror: false } },
-	{ source: game.BASE, name: "Insane", icon: "pyromaniac", color: "red", text: "Look at the back of this card but do not reveal it to the other investigators. When you have suffered horror equal to your sanity you are eliminated.",
-		bonuses: { actions: 0, moves: 0, prevents_moving: false, limits_actions: false, limits_move_actions: false }, ends: { after_turn: false, resolve: false, damage: false, horror: false } },
-	{ source: game.HORRIFIC_JOURNEYS, name: "Lost in Time and Space", icon: "portal", color: "red", text: "Remove your figure from the board. You are unaffected by other game effects and cannot perform other action.",
-		bonuses: { actions: 0, moves: 0, prevents_moving: false, limits_actions: false, limits_move_actions: false }, ends: { after_turn: false, resolve: false, damage: false, horror: false } },
-	{ source: game.BEYOND_THE_THRESHOLD, name: "Mesmerized", icon: "psychic-waves", color: "orange", text: "At the end of your turn, an alien will takes control.",
-		bonuses: { actions: 0, moves: 0, prevents_moving: false, limits_actions: false, limits_move_actions: false }, ends: { after_turn: true, resolve: true, damage: false, horror: false } },
-	{ source: game.SANCTUM_OF_TWILLIGHT, name: "Stressed", icon: "despair", color: "orange", text: "After re-rolling and converting dice results while resolving a test, you must remove 1 Success from your dice pool.",
-		bonuses: { actions: 0, moves: 0, prevents_moving: false, limits_actions: false, limits_move_actions: false }, ends: { after_turn: true, resolve: false, damage: false, horror: false } },
-	{ source: game.STREETS_OF_ARKHAM, name: "Righteous", icon: "embrassed-energy", color: "green", text: "Once per round, you may convert an Investigation Result to a Success. When you suffer 1 or more Horror, discard this card.",
-		bonuses: { actions: 0, moves: 0, prevents_moving: false, limits_actions: false, limits_move_actions: false }, ends: { after_turn: true, resolve: false, damage: false, horror: true } },
-	{ source: game.PATH_OF_THE_SERPENT, name: "Poisoned", icon: "poison-bottle", color: "red", text: "At the end of your turn, suffer 1 facedown Damage. Then flip this card.",
-	 	bonuses: { actions: 0, moves: 0, prevents_moving: false, limits_actions: false, limits_move_actions: false }, ends: { after_turn: false, resolve: false, damage: false, horror: true } },
-	{ source: game.PATH_OF_THE_SERPENT, name: "Fearless", icon: "deadly-strike", color: "green", text: "Effects cannot cause you to suffer Horror unless you choose to. At the end of your turn discard this card.",
-	 	bonuses: { actions: 0, moves: 0, prevents_moving: false, limits_actions: false, limits_move_actions: false }, ends: { after_turn: true, resolve: false, damage: false, horror: true } },// { source: game.BASE, name: "", icon: "", text: "",
-	// { source: game.BASE, name: "", icon: "", text: "",
-	// 	bonuses: { actions: 0, moves: 0, prevents_moving: false, limits_actions: false, limits_move_actions: false }, ends: { after_turn: false, resolve: false, damage: false, horror: true } },
+	new Effect(game.BASE, "Dazed", Icon.DAZED, Color.ORANGE, "You cannot spend Clues to convert dice results or perform additional puzzle steps. At the end of your turn, discard this card.")
+		.setBonuses(0, 0, false, false, false)
+		.setEnds(true, false, false, false),
+	new Effect(game.BASE, "Focused", Icon.FOCUSED, Color.GREEN, "You may discard this card to convert all Investigation Results to Successes while resolving a test.")
+		.setBonuses(0, 0,false,false, false)
+		.setEnds(false,false, false, false),
+	new Effect(game.BASE, "Restrained", Icon.RESTRAINED, Color.ORANGE, "You cannot move voluntarily. At the end of your turn discard this card.")
+		.setBonuses(0,0,true,false, false)
+		.setEnds(true,false, false, false ),
+	new Effect(game.BASE, "Stunned", Icon.STUNNED, Color.ORANGE, "You cannot perform more than a single action during your turn. At the end of your turn discard this card.")
+		.setBonuses(0, 0, false, true, false)
+		.setEnds(true, false, false, false),
+	new Effect(game.BASE, "Wounded", Icon.WOUNDED, Color.RED, "You cannot perform the move action more than once each round. When you have suffered Damage equal to your health you are eliminated.")
+		.setBonuses(0, 0, false, false, true)
+		.setEnds(false, false, false, false),
+	new Effect(game.BASE, "Insane", Icon.INSANE, Color.RED,"Look at the back of this card but do not reveal it to the other investigators. When you have suffered horror equal to your sanity you are eliminated.")
+		.setBonuses(0, 0, false, false, false )
+		.setEnds(false, false, false, false),
+	new Effect(game.HORRIFIC_JOURNEYS, "Lost in Time and Space", Icon.LOST_IN_TIME_AND_SPACE, Color.RED,"Remove your figure from the board. You are unaffected by other game effects and cannot perform other action.")
+		.setBonuses(0, 0, false, false, false )
+		.setEnds(false, false, false, false),
+	new Effect(game.BEYOND_THE_THRESHOLD, "Mesmerized", Icon.MESMERIZED, Color.ORANGE,"At the end of your turn, an alien will takes control.")
+		.setBonuses(0, 0, false, false, false )
+		.setEnds(true, true, false, false),
+	new Effect(game.SANCTUM_OF_TWILLIGHT, "Stressed", Icon.STRESSED, Color.ORANGE,"After re-rolling and converting dice results while resolving a test, you must remove 1 Success from your dice pool.")
+		.setBonuses(0, 0, false, false, false )
+		.setEnds(true, false, false, false),
+	new Effect(game.STREETS_OF_ARKHAM, "Righteous", Icon.RIGHTEOUS, Color.GREEN,"Once per round, you may convert an Investigation Result to a Success. When you suffer 1 or more Horror, discard this card.")
+		.setBonuses(0, 0, false, false, false )
+		.setEnds(true, false, false, true),
+	new Effect(game.PATH_OF_THE_SERPENT, "Poisoned", Icon.POISONED, Color.RED,"At the end of your turn, suffer 1 facedown Damage. Then flip this card.")
+		.setBonuses(0, 0, false, false, false )
+		.setEnds(false, false, false, true),
+	new Effect(game.PATH_OF_THE_SERPENT, "Fearless", Icon.FEARLESS, Color.GREEN,"Effects cannot cause you to suffer Horror unless you choose to. At the end of your turn discard this card.")
+		.setBonuses(0, 0, false, false, false )
+		.setEnds(true, false, false, true),
 ];

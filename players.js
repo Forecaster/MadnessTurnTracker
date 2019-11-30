@@ -103,7 +103,7 @@ function reset_player(player) {
 		if (effect !== null) {
 			if (effect.ends.after_turn) {
 				effects[i].classList.remove("active");
-				if (effects.ends.resolve) {
+				if (effect.ends.resolve) {
 					warn(player_get_display_name(player) + " is no longer " + effect.name);
 				}
 			}
@@ -168,10 +168,11 @@ function player_investigator_update(target) {
 }
 
 function player_investigator_restore(target) {
+	let selectedInvestigator = target.selectedOptions[0].innerText;
 	let player = target.parentElement.parentElement.parentElement;
-	let investigator = get_investigator_by_name(target.selectedOptions[0].innerText);
+	let investigator = get_investigator_by_name(selectedInvestigator);
 	target.parentElement.setAttribute("data-investigator-id", investigator.name);
-	target.parentElement.innerText = target.selectedOptions[0].innerText;
+	target.parentElement.innerText = selectedInvestigator;
 	$(player).find('#player-ability-text').html(investigator.ability);
 	player_add_effects(player);
 	player_add_indicators(player);

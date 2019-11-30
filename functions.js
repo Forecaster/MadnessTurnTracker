@@ -95,9 +95,13 @@ function get_investigator_by_name(investigator) {
 	return null;
 }
 
-function get_effect_by_name(effect) {
+/**
+ * @param {string} effect_name The name of the effect
+ * @returns Effect
+ */
+function get_effect_by_name(effect_name) {
 	for (let i = 0; i < effects.length; i++) {
-		if (effects[i].name === effect)
+		if (effects[i].name === effect_name)
 			return effects[i];
 	}
 	return null;
