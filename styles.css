@@ -156,6 +156,7 @@ move {
     height: 50px;
 }
 
+/*noinspection ALL*/
 .icon path {
     fill: var(--active);
 }
@@ -164,6 +165,7 @@ move {
     fill: black;
 }
 
+/*noinspection ALL*/
 .icon.active {
     background-color: var(--active);
     border: 2px solid white;
