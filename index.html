@@ -14,67 +14,71 @@
 	<script src="data.js"></script>
 </head>
 <body>
+<div style="display: none;">
+	<div id="player_template" class="player col-5 floating">
+		<span class="btn btn-danger" style="position: absolute; top: 2px; right: 2px;" onclick="btn_delete_player_confirm(event)" title="Delete Player">X</span>
+		<div class="row">
+			<div class="col-sm-6 col-md-6 col-xl-6 player-field" id="player-name" onclick="player_name_update(this)">Player Name</div>
+			<div class="col-sm-6 col-md-6 col-xl-6 player-field" id="player-investigator" onclick="player_investigator_update(this)">???</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6 col-md-6 col-xl-10" id="player-indicators"></div>
+		</div>
+		<div class="row">
+			<div class="col-12">
+				<!--					<span style="font-size: 18pt;">Ability:</span>-->
+				<span id="player-ability-text" style="color: gray; font-size: 14pt;"></span>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12">
+				<span style="font-size: 14pt;">Conditions:</span> <span style="color: green;">Positive</span>, <span style="color: orange">Temporary</span>, <span style="color: red">Conditional</span> & <span style="color: red">Permanent</span>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12 col-md-12 col-xl-12" id="player-effects" style="margin-top: 6px; margin-bottom: 6px;">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-4 sm-button thin-button">
+				<span class="btn btn-block btn-success button-action thin-button" onclick="action(event)">Action</span>
+			</div>
+			<div class="col-4 sm-button thin-button">
+				<span class="btn btn-block btn-primary button-move thin-button" onclick="move(event)">Move</span>
+			</div>
+			<div class="col-4 sm-button thin-button">
+				<span class="btn btn-block btn-warning thin-button" onclick="reset_player_btn(event)">Reset</span>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12 bg-button button-action"><div class="btn btn-success btn-lg btn-block" onclick="action(event)">Action</div></div>
+		</div>
+		<div class="row" style="margin-top: 10px;">
+			<div class="col-12 bg-button button-move"><div class="btn btn-primary btn-lg btn-block" onclick="move(event)">Move</div></div>
+		</div>
+		<div class="row" style="margin-top: 10px;">
+			<div class="col-12 bg-button"><div class="btn btn-warning btn-lg btn-block" onclick="reset_player_btn(event)">Reset</div></div>
+		</div>
+	</div>
+</div>
+<div class="popup" id="popup_notifications" style="display: none;">
+	<div class="close_button" onclick="popup_hide('notifications'); ">🞨</div>
+	<h3 id="popup_title">Things happened!</h3>
+	<div id="popup_body">This is where things happen and we list things and whatnot</div>
+</div>
+<div class="overlay" style="display: none;"></div>
+<div class="menu-bar">
+	<span class="text-button" onclick="clear_save()" title="Clear all data (Will reload page)">New</span>
+	<span class="text-button" onclick="save_to_file()" title="Save current data to file">Save...</span>
+	<span class="text-button" onclick="load_file()" title="Load data from file">Load...</span>
+	<span class="menu-divider">|</span>
+	<span class="text-button" onclick="player_add()" title="Add new player">Add Player</span>
+	<span class="text-button" onclick="reset_all_players()" title="Start a new turn, resetting each player">New Turn</span>
+</div>
+<div class="menu-bar-spacer"></div>
 <div class="container-fluid">
 	<h1>Mansions of Madness Turn Tracker</h1>
-	<div style="display: none;">
-		<div id="player_template" class="player col-5 floating">
-			<span class="btn btn-danger" style="position: absolute; top: 2px; right: 2px;" onclick="btn_delete_player_confirm(event)" title="Delete Player">X</span>
-			<div class="row">
-				<div class="col-sm-6 col-md-6 col-xl-6 player-field" id="player-name" onclick="player_name_update(this)">Player Name</div>
-				<div class="col-sm-6 col-md-6 col-xl-6 player-field" id="player-investigator" onclick="player_investigator_update(this)">???</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-6 col-md-6 col-xl-10" id="player-indicators"></div>
-			</div>
-			<div class="row">
-				<div class="col-12">
-<!--					<span style="font-size: 18pt;">Ability:</span>-->
-					<span id="player-ability-text" style="color: gray; font-size: 14pt;"></span>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-12">
-					<span style="font-size: 14pt;">Conditions:</span> <span style="color: green;">Positive</span>, <span style="color: orange">Temporary</span>, <span style="color: red">Conditional</span> & <span style="color: red">Permanent</span>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-12 col-md-12 col-xl-12" id="player-effects" style="margin-top: 6px; margin-bottom: 6px;">
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-4 sm-button thin-button">
-					<span class="btn btn-block btn-success button-action thin-button" onclick="action(event)">Action</span>
-				</div>
-				<div class="col-4 sm-button thin-button">
-					<span class="btn btn-block btn-primary button-move thin-button" onclick="move(event)">Move</span>
-				</div>
-				<div class="col-4 sm-button thin-button">
-					<span class="btn btn-block btn-warning thin-button" onclick="reset_player_btn(event)">Reset</span>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-12 bg-button button-action"><div class="btn btn-success btn-lg btn-block" onclick="action(event)">Action</div></div>
-			</div>
-			<div class="row" style="margin-top: 10px;">
-				<div class="col-12 bg-button button-move"><div class="btn btn-primary btn-lg btn-block" onclick="move(event)">Move</div></div>
-			</div>
-			<div class="row" style="margin-top: 10px;">
-				<div class="col-12 bg-button"><div class="btn btn-warning btn-lg btn-block" onclick="reset_player_btn(event)">Reset</div></div>
-			</div>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-sm-10">
-			<div class="btn btn-primary" onclick="player_add()">Add Player</div>
-			<div class="btn btn-warning" onclick="reset_all_players()">New Turn</div>
-		</div>
-		<div class="col-md-2" style="text-align: right;">
-			<div class="btn btn-danger" onclick="clear_save()">Clear Save Data</div>
-		</div>
-	</div>
-	<div id="message_box">
-
-	</div>
+	<div id="message_box"></div>
 	<div class="header">Players</div>
 	<div class="subheader">Click player name below to change. When done press enter or click outside field to save. Click on investigator field to change investigator.</div>
 	<div id="cont_player_active">

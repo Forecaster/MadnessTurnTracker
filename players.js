@@ -82,11 +82,25 @@ function player_add_indicators(player_row, indicators = default_indicators, clea
 
 function reset_all_players() {
 	let count = 0;
+	let popup = [];
 	$('#cont_player_active').find('.player').each(function() {
-		reset_player(this);
+		popup = popup.concat(reset_player(this));
 		count++;
 		// player_add_indicators(players[i].element, default_indicators);
 	});
+	console.debug(popup);
+	let popup_text = [];
+	for (let i = 0; i < popup.length; i++) {
+		let entry = popup[i];
+		let display_name = (entry.player == entry.display_name ? entry.display_name : entry.player + " (" + entry.display_name + ")");
+		if (entry.effect.ends.after_turn)
+			popup_text.push("<span style='text-decoration: underline;'>" + display_name + "</span> discards <span style='color: " + entry.effect.color + "'>" + entry.effect.name + "</span>");
+		else if (entry.effect.ends.resolve)
+			popup_text.push("<span style='text-decoration: underline;'>" + display_name + "</span> needs to resolve <span style='color: " + entry.effect.color + "'>" + entry.effect.name + "</span>");
+	}
+	if (popup_text.length > 0) {
+		popup_show("notifications", "Effects To Resolve", popup_text.join("\n"), true);
+	}
 	info("Reset " + count + " player" + (count !== 1 ? "s" : "") + "! New turn started!");
 	save();
 }
@@ -98,21 +112,25 @@ function reset_player_btn(event) {
 
 function reset_player(player) {
 	let effects = $(player).find('#player-effects .active');
+	let popup = [];
 	for (let i = 0; i < effects.length; i++) {
 		let effect = get_effect_by_name(effects[i].getAttribute("data-effect-name"));
 		if (effect !== null) {
 			if (effect.ends.after_turn) {
 				effects[i].classList.remove("active");
-				if (effect.ends.resolve) {
 					warn(player_get_display_name(player) + " is no longer " + effect.name);
-				}
+			} else if (effect.ends.resolve) {
+				warn(player_get_display_name(player) + " must resolve " + effect.name);
 			}
+			if (effect.ends.after_turn || effect.ends.resolve)
+				popup.push({ player: player_get_name(player), display_name: player_get_display_name(player), effect: effect});
 		}
 	}
 
 	player_add_indicators(player, default_indicators);
 	info("Restored " + player_get_display_name(player) + "!");
 	save();
+	return popup;
 }
 
 function player_name_update(target) {
@@ -253,6 +271,10 @@ function move(event) {
 
 function player_get_name(player_row) {
 	return $(player_row).find('#player-name').text();
+}
+
+function payer_get_investigator_name(player_row) {
+	return $(player_row).find('#player-investigator').text();
 }
 
 function player_toggle_effect(target) {

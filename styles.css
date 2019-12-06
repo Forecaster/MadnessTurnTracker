@@ -254,3 +254,69 @@ select.player-investigator:focus {
     height: 30px;
     line-height: 1;
 }
+
+.menu-bar-spacer {
+    height: 29px;
+}
+
+.menu-bar {
+    z-index: 1000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 25px;
+    background-color: black;
+    padding: 2px 2px 2px 4px;
+}
+
+.text-button {
+    cursor: pointer;
+    margin-right: 6px;
+    padding: 2px;
+}
+
+.text-button:hover {
+    background-color: white;
+    color: black;
+}
+
+.overlay {
+    z-index: 2000;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+}
+
+.popup {
+    z-index: 3000;
+    position: fixed;
+    top: 100px;
+    left: 50%;
+
+    width: 600px;
+    margin-left: -306px;
+
+    background-color: #3c4043;
+    border-radius: 15px 0 15px 0;
+    padding: 6px;
+}
+
+.close_button {
+    cursor: pointer;
+    width: 50px;
+    height: 25px;
+    color: white;
+    text-align: center;
+    line-height: 25px;
+
+    position: absolute;
+    top: 0;
+    right: 0;
+
+}
+
+.close_button:hover {
+    background-color: red;
+}

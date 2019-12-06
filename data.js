@@ -147,20 +147,20 @@ const effects = [
 		.setEnds(false, false, false, false),
 	new Effect(game.HORRIFIC_JOURNEYS, "Lost in Time and Space", Icon.LOST_IN_TIME_AND_SPACE, Color.RED,"Remove your figure from the board. You are unaffected by other game effects and cannot perform other action.")
 		.setBonuses(0, 0, false, false, false )
-		.setEnds(false, false, false, false),
+		.setEnds(false, true, false, false),
 	new Effect(game.BEYOND_THE_THRESHOLD, "Mesmerized", Icon.MESMERIZED, Color.ORANGE,"At the end of your turn, an alien will takes control.")
 		.setBonuses(0, 0, false, false, false )
-		.setEnds(true, true, false, false),
+		.setEnds(false, true, false, false),
 	new Effect(game.SANCTUM_OF_TWILLIGHT, "Stressed", Icon.STRESSED, Color.ORANGE,"After re-rolling and converting dice results while resolving a test, you must remove 1 Success from your dice pool.")
 		.setBonuses(0, 0, false, false, false )
-		.setEnds(true, false, false, false),
+		.setEnds(false, true, false, false),
 	new Effect(game.STREETS_OF_ARKHAM, "Righteous", Icon.RIGHTEOUS, Color.GREEN,"Once per round, you may convert an Investigation Result to a Success. When you suffer 1 or more Horror, discard this card.")
 		.setBonuses(0, 0, false, false, false )
-		.setEnds(true, false, false, true),
+		.setEnds(false, false, false, true),
 	new Effect(game.PATH_OF_THE_SERPENT, "Poisoned", Icon.POISONED, Color.RED,"At the end of your turn, suffer 1 facedown Damage. Then flip this card.")
 		.setBonuses(0, 0, false, false, false )
-		.setEnds(false, false, false, true),
+		.setEnds(false, true, false, false),
 	new Effect(game.PATH_OF_THE_SERPENT, "Fearless", Icon.FEARLESS, Color.GREEN,"Effects cannot cause you to suffer Horror unless you choose to. At the end of your turn discard this card.")
 		.setBonuses(0, 0, false, false, false )
-		.setEnds(true, false, false, true),
+		.setEnds(true, false, false, false),
 ];
